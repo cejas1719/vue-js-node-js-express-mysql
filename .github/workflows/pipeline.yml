@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Build Image $GITHUB_RUN_ATTEMPT
     steps: 
+    - name: Check root path 
+      run: pwd
     - name: Build image 
       run: docker build . -t 203019893885.dkr.ecr.us-east-1.amazonaws.com/ecr-nbcu:latest
 
