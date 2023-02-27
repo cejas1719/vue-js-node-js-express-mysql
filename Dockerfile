@@ -1,4 +1,4 @@
-FROM 203019893885.dkr.ecr.us-east-1.amazonaws.com/nbcu-node:18-alpine
+FROM node:18-alpine
 
 RUN apk add --no-cache bash
 
