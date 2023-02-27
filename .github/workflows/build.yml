@@ -31,7 +31,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: buld docker image
         run: |
-          docker build . -t ${{ secrets.AWS_ECR_PATH }}:latest
+          docker build . -t nbcu-website:latest
 
       # Pushes latest version to ECR
       - name: Push to ECR
