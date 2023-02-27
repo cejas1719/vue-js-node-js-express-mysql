@@ -5,7 +5,7 @@ on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: 
-      - '**'
+    - '**'
   # pull_request:
   #   branches: [ "main" ]
 
@@ -25,20 +25,29 @@ jobs:
       - uses: actions/checkout@v3
 
       # Runs a single command using the runners shell
-      - name: install npm
+      - name: Run a one-line script
         run: npm install
 
+      # Configures AWS creds
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      # ECR Login
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
       # Runs a set of commands using the runners shell
-      - name: buld docker image
+      - name: Run a multi-line script
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ecr-nbcu
+          IMAGE_TAG: latest
         run: |
           docker build . -t nbcu-website:latest
-
-      # Pushes latest version to ECR
-      - name: Push to ECR
-        uses: jwalton/gh-ecr-push@v1
-        with:
-          access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          region: us-east-1
-          local-image: nbcu-website:latest
-          image: ${{ secrets.AWS_ECR_PATH }}:latest
+          docker tag nbcu-website:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
