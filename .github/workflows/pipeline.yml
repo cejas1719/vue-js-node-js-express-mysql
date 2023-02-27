@@ -1,0 +1,27 @@
+name: "NBCU challenge Build, push and deploy VUE App"
+
+# on:
+#  push:
+#    branches:
+#      - master
+
+jobs: 
+  runs-on: ubuntu-latest
+  BuildImage: 
+    name: Build Image $GITHUB_RUN_ATTEMPT
+    steps: 
+    - name: Build image 
+      run: docker build . -t 203019893885.dkr.ecr.us-east-1.amazonaws.com/ecr-nbcu:latest
+
+    - name: Tag version image
+      run: docker image tag 203019893885.dkr.ecr.us-east-1.amazonaws.com/ecr-nbcu:latest 203019893885.dkr.ecr.us-east-1.amazonaws.com/ecr-nbcu:$GITHUB_RUN_ATTEMPT
+
+  PushImage: 
+    name: Push Image to ECR 
+    steps: 
+    - name: push
+      run: docker push 203019893885.dkr.ecr.us-east-1.amazonaws.com/ecr-nbcu:$GITHUB_RUN_ATTEMPT
+
+
+
+
