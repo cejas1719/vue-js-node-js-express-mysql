@@ -11,7 +11,12 @@ jobs:
     name: Build Image $GITHUB_RUN_ATTEMPT
     steps: 
     - name: Check root path 
-      run: pwd
+      run: |
+        pwd
+        cd ..
+        pwd
+        ls -las
+        
     - name: Build image 
       run: docker build . -t 203019893885.dkr.ecr.us-east-1.amazonaws.com/ecr-nbcu:latest
 
