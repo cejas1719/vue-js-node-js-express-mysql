@@ -13,7 +13,8 @@ jobs:
     - name: Check root path 
       run: |
         pwd
-        ls
+        echo "dockerfile content"
+        cat Dockerfile
         cd ..
         pwd
         ls -las
