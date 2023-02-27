@@ -1,9 +1,9 @@
 name: "NBCU challenge Build, push and deploy VUE App"
 
-# on:
-#  push:
-#    branches:
-#      - master
+on:
+ push:
+   branches:
+     - '**'
 
 jobs: 
   runs-on: ubuntu-latest
