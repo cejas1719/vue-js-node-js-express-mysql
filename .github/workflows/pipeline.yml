@@ -13,7 +13,7 @@ jobs:
     - name: Check root path 
       run: |
         pwd
-        ls -las
+        ls
         cd ..
         pwd
         ls -las
